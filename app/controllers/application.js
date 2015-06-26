@@ -6,9 +6,10 @@ export default Ember.Controller.extend({
   password: '132456',
 
   ajaxing: false,
-  isLogin: function() {
-    return this.auth.isLogin();
-  }.property('auth.authToken'),
+  isShowLogin: false,
+  showLoginClass: function() {
+    return this.get('isShowLogin') ? 'show-login' : '';
+  }.property('isShowLogin'),
 
   reset() {
     this.set('password', '');
@@ -20,7 +21,15 @@ export default Ember.Controller.extend({
     this.auth.login();
   },
 
+
+
   actions: {
+
+    toggleLogin(form) {
+      this.toggleProperty('isShowLogin');
+      Ember.$('#login-form').css('top', 40).css('left', -130);
+    },
+
     login() {
       var controller = this;
       this.set('ajaxing', true);
@@ -36,7 +45,12 @@ export default Ember.Controller.extend({
       this.auth.logout();
     },
 
+    // TODO: For Test
+    user() {
+      console.log(this.auth.get('user'));
+    },
 
+    // TODO: For Test
     hello() {
       ajax('https://ruby-china.org/api/v3/hello.json', {method: 'GET'})
         .then((res) => {
