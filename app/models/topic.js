@@ -50,15 +50,18 @@ var Topic = DS.Model.extend({
   user: DS.belongsTo('user', {async: false}),
   replies: DS.hasMany('reply', {async: true}),
 
-  refresh(force=false) {
-    if(force) {
-      return this.reload();
-    } else if(Ember.isEmpty(this.get('body')) || Ember.isEmpty(this.get('body_html'))) {
-      return this.reload();
-    } else {
-      return this;
-    }
+  // 添加本地的 reply
+  addReply(content) {
+    return this.store.createRecord('reply', {
+      topic: this,
+      body: content
+    });
+  },
+
+  loadReplies(page = 1, limit = 100) {
+    return this.store.query('reply', {page: page, limit: limit, preload: {topic: this.get('id')}});
   }
+
 });
 
 Topic.reopenClass({

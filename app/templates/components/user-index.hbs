@@ -1,0 +1,30 @@
+{{#each modelToDulArray as |users|}}
+  <div class="row">
+    {{#each users as |user|}}
+      <div class="col-xs-3" style="mix-width:100px">
+        <div class="media user-card">
+          <div class="media-left">
+            {{#link-to 'users.show' user.login class='avatar'}}
+              <img class="media-object avatar-48" src="{{user.avatar_url}}" alt="1">
+            {{/link-to}}
+          </div>
+          <div class="media-body">
+            <div class="media-heading">
+              {{#link-to 'users.show' user.login class='avatar'}}
+                {{user.login}}
+              {{/link-to}}
+            </div>
+            <div class="infos">
+              <div class="item opts">
+                <a href="#" {{action 'follow' user.login}}>
+                  <i class="glyphicon glyphicon-user"></i> <span>关注</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+{{/each}}
+{{yield}}
